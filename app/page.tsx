@@ -1,5 +1,6 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
+import type { MouseEvent } from "react";
 import Typewriter from "@/components/typewriter";
 import NeonGrid from "@/components/neon-grid";
 import Link from "next/link";
@@ -15,7 +16,7 @@ function Section({ id, title, children }: SectionProps) {
       id={id}
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.01 }}
       transition={{ duration: 0.6 }}
       className="max-w-6xl mx-auto px-6 py-20 scroll-mt-24"
     >
@@ -38,14 +39,24 @@ const skills = [
   "Node.js",
 ];
 
-type Project = { title: string; summary: string };
-const projects: Project[] = [
-  { title: "Greenify App", summary: "Smart Waste Reporting" },
-  { title: "AmanBersuara", summary: "Safe Space for Domestic Violence Survivors" },
-  { title: "NutriGen", summary: "Nutrition Recommendation System" },
-  { title: "Qiza App", summary: "Qur’anic Intelligence Zone" },
-  { title: "Company Profile MAHKOTA", summary: "Profil perusahaan modern" },
-  { title: "Bioinformatics DNA-RNA Tool", summary: "Alat analisis dasar Bioinformatika" },
+const projectImages = [
+  "/image/project/5.png",
+  "/image/project/6.png",
+  "/image/project/7.png",
+  "/image/project/8.png",
+  "/image/project/9.png",
+  "/image/project/10.png",
+  "/image/project/11.png",
+  "/image/project/12.png",
+  "/image/project/13.png",
+  "/image/project/14.png",
+  "/image/project/15.png",
+  "/image/project/16.png",
+  "/image/project/17.png",
+  "/image/project/18.png",
+  "/image/project/19.png",
+  "/image/project/20.png",
+  "/image/project/21.png",
 ];
 
 type Experience = { period: string; title: string; org: string };
@@ -62,6 +73,13 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
   const glowY = useTransform(scrollYProgress, [0, 1], [0, -80]);
   const glowY2 = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    event.currentTarget.style.setProperty("--x", `${x}px`);
+    event.currentTarget.style.setProperty("--y", `${y}px`);
+  };
   return (
     <div>
     <section className="relative min-h-[calc(100vh-72px)] px-6 py-24 flex items-center justify-center overflow-hidden">
@@ -101,7 +119,7 @@ export default function Home() {
             <div className="absolute right-4 bottom-4 w-14 h-14 rounded-full border border-primary/40 opacity-60 mix-blend-soft-light pointer-events-none" aria-hidden />
             <div className="absolute inset-0 opacity-20 [background-image:repeating-linear-gradient(45deg,rgba(56,189,248,0.15)_0px,rgba(56,189,248,0.15)_2px,transparent_2px,transparent_8px)] pointer-events-none" aria-hidden />
             <Image
-              src="/image/mip3.png"
+              src="/image/mip4.png"
               alt="Foto Miftah"
               fill
               priority
@@ -191,17 +209,35 @@ export default function Home() {
 
     {/* Projects */}
     <Section id="projects" title="Proyek Pilihan">
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((p) => (
-          <motion.article
-            key={p.title}
-            className="rounded-xl border border-border bg-card/60 backdrop-blur p-5 transition-colors"
-            whileHover={{ y: -4, scale: 1.02, boxShadow: "0 10px 30px rgba(56,189,248,0.15)" }}
-            transition={{ type: "spring", stiffness: 260, damping: 18 }}
-          >
-            <h3 className="font-medium">{p.title}</h3>
-            <p className="mt-2 text-sm text-muted-foreground">{p.summary}</p>
-          </motion.article>
+      <div className="snap-y snap-mandatory">
+        {projectImages.map((src, i) => (
+          <section key={src} className="relative w-full h-screen snap-start flex items-center justify-center">
+            <div
+              onMouseMove={handleMouseMove}
+              className="group relative isolate max-w-6xl w-[92vw] h-[85vh] p-4 sm:p-6 rounded-[32px] border border-border bg-card/60 backdrop-blur overflow-hidden shadow-xl transition-all duration-200 hover:shadow-[0_0_36px_rgba(56,189,248,0.28)] hover:border-primary/60"
+            >
+              <div
+                className="relative w-full h-full rounded-[32px] overflow-hidden"
+                style={{ clipPath: "inset(0 round 32px)" }}
+              >
+                <Image
+                  src={src}
+                  alt={`Project ${i + 1}`}
+                  fill
+                  className="object-cover object-center rounded-[32px]"
+                  sizes="100vw"
+                  priority={i === 0}
+                />
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 mix-blend-soft-light"
+                  style={{
+                    background:
+                      "radial-gradient(200px 200px at var(--x, 50%) var(--y, 50%), rgba(147, 197, 253, 0.32), transparent 55%)",
+                  }}
+                />
+              </div>
+            </div>
+          </section>
         ))}
       </div>
     </Section>
