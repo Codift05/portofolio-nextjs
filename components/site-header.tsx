@@ -35,7 +35,12 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-semibold text-lg tracking-tight">
+        {/* Brand dihilangkan secara visual untuk menghapus teks "Mif" */}
+        <Link
+          href="/"
+          aria-label="Home"
+          className="font-semibold text-lg tracking-tight opacity-0 pointer-events-none select-none w-12"
+        >
           Mif
         </Link>
         <nav className="hidden md:flex items-center gap-6">

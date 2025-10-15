@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mif — Personal Portfolio
 
-## Getting Started
+Portofolio pribadi berbasis `Next.js` dengan tema neon, animasi halus, dan layout responsif. Hero berisi headline di tengah, foto di bawahnya, dan badge review/keahlian di kiri-kanan mulai breakpoint `md:`.
 
-First, run the development server:
+## Fitur
+
+- Hero: teks besar terpusat, foto kotak di bawah, badge kiri/kanan.
+- Tema neon dengan gradasi, blur, dan garis diagonal halus.
+- Animasi `framer-motion` untuk transisi yang lembut.
+- Komponen UI ringan (`Button`) dan ikon `lucide-react`.
+- Responsif: mobile tetap rapi, badge tampil dari `md:`.
+
+## Tech Stack
+
+- `Next.js 15` (App Router) + `React 19`
+- `TypeScript`
+- `Tailwind CSS v4`
+- `Framer Motion`
+- `Lucide React`
+
+## Memulai
+
+Prasyarat: `Node.js >= 18` (disarankan 20+), `npm`.
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# buka http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Build produksi:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm start
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Script lain:
 
-## Learn More
+- `npm run lint` — menjalankan ESLint.
 
-To learn more about Next.js, take a look at the following resources:
+## Struktur Proyek Singkat
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `app/` — halaman & layout (`page.tsx`, dll.)
+- `components/` — komponen UI & util (mis. `neon-grid`, `button`)
+- `public/` — aset publik (ikon, gambar), termasuk `image/mip3.png`
+- `lib/` — utilitas kecil
+- `next.config.ts`, `tsconfig.json`, `eslint.config.mjs`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Kustomisasi Cepat
 
-## Deploy on Vercel
+- Ubah foto profil:
+  - Ganti file di `public/image/` lalu sesuaikan `src` di `app/page.tsx`.
+  - Contoh di `app/page.tsx`:
+    ```tsx
+    <Image
+      src="/image/mip3.png"
+      alt="Foto Miftah"
+      fill
+      priority
+      className="object-cover object-center"
+    />
+    ```
+- Posisi & ukuran badge:
+  - Kiri: `absolute left-10 top-1/3 -rotate-6`
+  - Kanan: `absolute right-10 top-1/3 rotate-6`
+  - Geser angka (mis. `left-8`, `top-1/2`) untuk penempatan.
+- Ukuran kotak foto: ubah kelas `w-56 h-56 sm:w-64 md:w-72`.
+- Intensitas gradasi/blur: sesuaikan `opacity`/`blur` pada elemen dekoratif.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Saran: gunakan Vercel.
+
+1. Buat project baru di Vercel dan hubungkan repo GitHub ini.
+2. Pengaturan default Next.js sudah cukup; tidak perlu env khusus.
+3. Setelah deploy, cek halaman utama dan lintas perangkat.
+
+---
+
+Jika menemukan bug/kebutuhan fitur, buat issue atau pull request. Selamat berkarya!
