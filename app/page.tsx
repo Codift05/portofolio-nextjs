@@ -1,5 +1,5 @@
 "use client";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import type { MouseEvent } from "react";
 import Typewriter from "@/components/typewriter";
 import NeonGrid from "@/components/neon-grid";
@@ -73,6 +73,16 @@ export default function Home() {
   const { scrollYProgress } = useScroll();
   const glowY = useTransform(scrollYProgress, [0, 1], [0, -80]);
   const glowY2 = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const glowOpacity = useTransform(scrollYProgress, [0, 1], [0.6, 0.85]);
+  const galleryY = useTransform(scrollYProgress, [0, 1], [0, -24]);
+  const galleryScale = useTransform(scrollYProgress, [0, 1], [1, 0.98]);
+
+  // Springs untuk efek yang lebih halus
+  const sGlowY = useSpring(glowY, { stiffness: 80, damping: 20 });
+  const sGlowY2 = useSpring(glowY2, { stiffness: 80, damping: 20 });
+  const sGlowOpacity = useSpring(glowOpacity, { stiffness: 70, damping: 18 });
+  const sGalleryY = useSpring(galleryY, { stiffness: 120, damping: 24 });
+  const sGalleryScale = useSpring(galleryScale, { stiffness: 200, damping: 28 });
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -109,13 +119,26 @@ export default function Home() {
           transition={{ duration: 0.7, delay: 0.15 }}
           className="relative mx-auto mt-10 w-fit"
         >
-          {/* Halo belakang */}
-          <div className="absolute -inset-12 rounded-2xl bg-gradient-to-tr from-primary/50 via-violet-500/40 to-cyan-400/40 blur-3xl opacity-70" aria-hidden />
+          {/* Parallax glow belakang */}
+          <motion.div
+            aria-hidden
+            className="absolute -inset-12 rounded-2xl bg-gradient-to-tr from-primary/50 via-violet-500/40 to-cyan-400/40 blur-3xl"
+            style={{ y: sGlowY, opacity: sGlowOpacity }}
+          />
+          <motion.div
+            aria-hidden
+            className="absolute -inset-24 rounded-3xl bg-gradient-to-br from-cyan-400/30 via-sky-400/20 to-violet-500/30 blur-2xl"
+            style={{ y: sGlowY2, opacity: sGlowOpacity }}
+          />
           <div className="relative mx-auto w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 rounded-xl overflow-hidden border border-border shadow-2xl">
             {/* Overlay gradasi di dalam kotak */}
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/25 via-violet-500/20 to-cyan-400/20 mix-blend-soft-light pointer-events-none" aria-hidden />
             {/* Shapes dekoratif */}
-            <div className="absolute left-4 top-4 w-20 h-20 rounded-[28%] bg-gradient-to-br from-violet-500/50 to-cyan-400/50 blur-xl opacity-50 mix-blend-soft-light pointer-events-none" aria-hidden />
+            <motion.div
+              className="absolute left-4 top-4 w-20 h-20 rounded-[28%] bg-gradient-to-br from-violet-500/50 to-cyan-400/50 blur-xl opacity-50 mix-blend-soft-light pointer-events-none"
+              aria-hidden
+              style={{ y: sGlowY }}
+            />
             <div className="absolute right-4 bottom-4 w-14 h-14 rounded-full border border-primary/40 opacity-60 mix-blend-soft-light pointer-events-none" aria-hidden />
             <div className="absolute inset-0 opacity-20 [background-image:repeating-linear-gradient(45deg,rgba(56,189,248,0.15)_0px,rgba(56,189,248,0.15)_2px,transparent_2px,transparent_8px)] pointer-events-none" aria-hidden />
             <Image
@@ -212,9 +235,10 @@ export default function Home() {
       <div className="snap-y snap-mandatory">
         {projectImages.map((src, i) => (
           <section key={src} className="relative w-full h-screen snap-start flex items-center justify-center">
-            <div
+            <motion.div
               onMouseMove={handleMouseMove}
-              className="group relative isolate max-w-6xl w-[92vw] h-[85vh] p-4 sm:p-6 rounded-[32px] border border-border bg-card/60 backdrop-blur overflow-hidden shadow-xl transition-all duration-200 hover:shadow-[0_0_36px_rgba(56,189,248,0.28)] hover:border-primary/60"
+              className="group relative isolate max-w-6xl w-[92vw] md:h-[85vh] h-[70vh] min-h-[380px] p-4 sm:p-6 rounded-[32px] border border-border bg-card/60 backdrop-blur overflow-hidden shadow-xl transition-all duration-200 hover:shadow-[0_0_36px_rgba(56,189,248,0.28)] hover:border-primary/60"
+              style={{ y: sGalleryY, scale: sGalleryScale }}
             >
               <div
                 className="relative w-full h-full rounded-[32px] overflow-hidden"
@@ -224,19 +248,19 @@ export default function Home() {
                   src={src}
                   alt={`Project ${i + 1}`}
                   fill
-                  className="object-cover object-center rounded-[32px]"
+                  className="md:object-cover object-contain object-center rounded-[32px]"
                   sizes="100vw"
                   priority={i === 0}
                 />
                 <div
-                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 mix-blend-soft-light"
+                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-soft-light"
                   style={{
                     background:
                       "radial-gradient(200px 200px at var(--x, 50%) var(--y, 50%), rgba(147, 197, 253, 0.32), transparent 55%)",
                   }}
                 />
               </div>
-            </div>
+            </motion.div>
           </section>
         ))}
       </div>
