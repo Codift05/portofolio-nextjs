@@ -1,0 +1,14 @@
+[build]
+command = "npm run build"
+publish = ".next"
+
+[functions]
+node_bundler = "esbuild"
+
+# Gunakan runtime Next.js bawaan Netlify
+[[plugins]]
+package = "@netlify/plugin-nextjs"
+
+[build.environment]
+# Pastikan versi Node sesuai dengan Next.js
+NODE_VERSION = "18"
