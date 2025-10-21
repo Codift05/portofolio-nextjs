@@ -136,7 +136,7 @@ const [selectedCert, setSelectedCert] = useState<string | null>(null);
           transition={{ duration: 0.6 }}
           className="font-display text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight"
         >
-          I'm <span className="text-primary">Miftahuddin S. Arsyad</span>
+          I&apos;m <span className="text-primary">Miftahuddin S. Arsyad</span>
         </motion.h1>
         <motion.h2
           initial={{ opacity: 0 }}
@@ -203,8 +203,8 @@ const [selectedCert, setSelectedCert] = useState<string | null>(null);
           <div className="pointer-events-none">
             {/* Kiri: Review */}
             <div className="absolute left-10 top-1/3 -rotate-6 rounded-xl border border-border bg-slate-900/70 text-slate-100 backdrop-blur p-4 shadow-lg z-20">
-              <div className="text-sm">"Code is poetry written in logic,</div>
-              <div className="text-sm">and every bug is just a plot twist in the story."</div>
+              <div className="text-sm">&quot;Code is poetry written in logic,</div>
+              <div className="text-sm">and every bug is just a plot twist in the story.&quot;</div>
               <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
               </div>
             </div>
