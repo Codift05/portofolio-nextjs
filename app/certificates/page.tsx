@@ -1,4 +1,8 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useI18n } from "@/components/i18n";
 
 const certificatesImages: { label: string; src: string }[] = [
   { label: "Sertif BNSP", src: "/image/certificate/Sertif BNSP.jpg" },
@@ -7,9 +11,11 @@ const certificatesImages: { label: string; src: string }[] = [
 ];
 
 export default function CertificatesPage() {
+  const [selectedCert, setSelectedCert] = useState<string | null>(null);
+  // removed i18n hook
   return (
     <section className="max-w-5xl mx-auto px-6 py-16">
-      <h1 className="text-2xl sm:text-3xl font-semibold">Sertifikasi</h1>
+      <h1 className="text-2xl sm:text-3xl font-semibold">Sertifikat</h1>
       <div className="relative mt-6">
         {/* Glow background */}
         <div
@@ -24,7 +30,8 @@ export default function CertificatesPage() {
           {certificatesImages.map((item) => (
             <div
               key={item.label}
-              className="group relative rounded-xl border border-border bg-card/60 backdrop-blur p-3 sm:p-4 overflow-hidden"
+              onClick={() => setSelectedCert(item.src)}
+              className="group relative rounded-xl border border-border bg-card/60 backdrop-blur p-3 sm:p-4 overflow-hidden cursor-pointer"
             >
               {/* Glow per-card */}
               <div
@@ -48,6 +55,39 @@ export default function CertificatesPage() {
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedCert && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedCert(null)}
+          >
+            <motion.div
+              className="relative w-full sm:max-w-2xl lg:max-w-3xl mx-4 bg-card/90 backdrop-blur rounded-xl border border-border shadow-2xl p-4 max-h-[80vh] overflow-hidden"
+              initial={{ scale: 0.98, y: 10, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.98, y: 10, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-slate-900 font-semibold">Sertifikat</h3>
+                <button
+                  className="px-3 py-1.5 text-sm rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700"
+                  onClick={() => setSelectedCert(null)}
+                >
+                  Tutup
+                </button>
+              </div>
+              <div className="rounded-lg border border-border overflow-auto">
+                <Image src={selectedCert} alt="Sertifikat" width={1200} height={800} className="w-full h-auto max-h-[70vh] object-contain bg-card" />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

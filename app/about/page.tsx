@@ -1,62 +1,56 @@
+"use client";
 import Image from "next/image";
+// removed: import { useI18n } from "@/components/i18n";
 
 export default function AboutPage() {
-  // Daftar ikon dari public/image/icon
-  const iconList: { label: string; src: string }[] = [
-    { label: "Figma", src: "/image/icon/Figma.png" },
-    { label: "Jupyter", src: "/image/icon/Jupyter.png" },
-    { label: "Laravel", src: "/image/icon/Laravel.jpg" },
-    { label: "MySQL", src: "/image/icon/MySQL.png" },
-    { label: "NextJS", src: "/image/icon/NextJS.png" },
-    { label: "NodeJS", src: "/image/icon/NodeJS.png" },
-    { label: "PHP", src: "/image/icon/PHP.png" },
-    { label: "Python", src: "/image/icon/Python.png" },
-    { label: "ReactJS", src: "/image/icon/ReactJS.png" },
-    { label: "Typescript", src: "/image/icon/Typescript.png" },
-  ];
-
+  // removed i18n hook
   return (
     <section className="max-w-5xl mx-auto px-6 py-16">
-      <h1 className="text-2xl sm:text-3xl font-semibold">Tentang Miftah</h1>
-      <p className="mt-4 text-muted-foreground">
-        Mahasiswa Teknik Informatika Universitas Sam Ratulangi. Berfokus pada pengembangan web,
-        eksplorasi Machine Learning, dan desain antarmuka yang human-centered.
-      </p>
-      <div className="relative mt-8">
-        {/* Glow background grid */}
-        <div
-          aria-hidden
-          className="absolute -inset-6 rounded-3xl blur-2xl opacity-40"
-          style={{
-            background:
-              "radial-gradient(500px 200px at 25% 35%, rgba(56,189,248,0.18), transparent 60%), radial-gradient(500px 200px at 75% 70%, rgba(139,92,246,0.18), transparent 60%)",
-          }}
-        />
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {iconList.map((icon) => (
-            <div
-              key={icon.label}
-              className="group relative rounded-xl border border-border bg-card/60 backdrop-blur p-4 flex items-center justify-center overflow-hidden"
-            >
-              {/* Glow per-card on hover */}
-              <div
-                aria-hidden
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{
-                  background:
-                    "radial-gradient(80px 80px at 50% 50%, rgba(56,189,248,0.22), transparent 60%)",
-                }}
-              />
-              <Image
-                src={icon.src}
-                alt={icon.label}
-                width={44}
-                height={44}
-                className="relative z-10 w-11 h-11 object-contain"
-              />
-            </div>
-          ))}
+      <h1 className="text-2xl sm:text-3xl font-semibold">Tentang</h1>
+      <div className="mt-6 grid lg:grid-cols-2 gap-6 items-start">
+        <div className="rounded-2xl border border-border bg-card/60 backdrop-blur p-6">
+          <h2 className="text-lg font-semibold text-slate-900">Bio</h2>
+          <p className="mt-2 text-slate-700 leading-relaxed">
+            Halo! Saya Miftahuddin S. Arsyad , seorang Software Engineer yang berfokus pada pengembangan web dan mobile, serta memiliki ketertarikan besar pada eksplorasi Machine Learning.
+          </p>
         </div>
+
+        <div className="rounded-2xl border border-border bg-card/60 backdrop-blur p-6">
+          <h2 className="text-lg font-semibold text-slate-900">Keahlian</h2>
+          <div className="mt-4 grid sm:grid-cols-2 gap-2">
+            <div className="rounded-lg border border-border p-3">
+              <p className="text-sm text-slate-900 font-medium">Backend</p>
+              <div className="mt-2 h-2 bg-slate-100 rounded-full">
+                <div className="h-2 bg-blue-500 rounded-full w-[80%]" />
+              </div>
+            </div>
+            <div className="rounded-lg border border-border p-3">
+              <p className="text-sm text-slate-900 font-medium">Machine Learning</p>
+              <div className="mt-2 h-2 bg-slate-100 rounded-full">
+                <div className="h-2 bg-purple-500 rounded-full w-[70%]" />
+              </div>
+            </div>
+            <div className="rounded-lg border border-border p-3">
+              <p className="text-sm text-slate-900 font-medium">Frontend</p>
+              <div className="mt-2 h-2 bg-slate-100 rounded-full">
+                <div className="h-2 bg-indigo-500 rounded-full w-[65%]" />
+              </div>
+            </div>
+            <div className="rounded-lg border border-border p-3">
+              <p className="text-sm text-slate-900 font-medium">DevOps</p>
+              <div className="mt-2 h-2 bg-slate-100 rounded-full">
+                <div className="h-2 bg-emerald-500 rounded-full w-[55%]" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 rounded-2xl border border-border bg-card/60 backdrop-blur p-6">
+        <h2 className="text-lg font-semibold text-slate-900">Kontak</h2>
+        <p className="mt-2 text-slate-700">
+          Saya terbuka untuk kolaborasi. Hubungi saya melalui platform di bawah ini.
+        </p>
       </div>
     </section>
   );

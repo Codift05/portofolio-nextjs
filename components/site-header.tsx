@@ -7,6 +7,7 @@ import { Github, Linkedin, Instagram } from "lucide-react";
 
 export default function SiteHeader() {
   const [active, setActive] = useState<string>("");
+  // removed i18n state
 
   useEffect(() => {
     const ids = ["about", "projects", "experience", "certificates", "contact"];
@@ -45,33 +46,34 @@ export default function SiteHeader() {
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           <Link href="/#about" className={linkClass("about")}>
-            About
+            Tentang
           </Link>
           <Link href="/#projects" className={linkClass("projects")}>
             Projects
           </Link>
           <Link href="/#experience" className={linkClass("experience")}>
-            Experience
+            Pengalaman
           </Link>
           <Link href="/#certificates" className={linkClass("certificates")}>
-            Certificates
+            Sertifikat
           </Link>
           <Link href="/#contact" className={linkClass("contact")}>
-            Contact
+            Kontak
           </Link>
         </nav>
         <div className="flex items-center gap-2">
-          <Link href="https://github.com/" target="_blank" aria-label="GitHub">
+
+          <Link href="https://github.com/Codift05" target="_blank" aria-label="GitHub">
             <Button variant="ghost" size="icon">
               <Github className="h-5 w-5" />
             </Button>
           </Link>
-          <Link href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn">
+          <Link href="https://www.linkedin.com/in/miftahuddin-s-arsyad/" target="_blank" aria-label="LinkedIn">
             <Button variant="ghost" size="icon">
               <Linkedin className="h-5 w-5" />
             </Button>
           </Link>
-          <Link href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+          <Link href="https://www.instagram.com/mfthsarsyd" target="_blank" aria-label="Instagram">
             <Button variant="ghost" size="icon">
               <Instagram className="h-5 w-5" />
             </Button>

@@ -1,3 +1,6 @@
+"use client";
+// removed: import { useI18n } from "@/components/i18n";
+
 type Experience = { period: string; title: string; org: string };
 
 const experiences: Experience[] = [
@@ -8,9 +11,10 @@ const experiences: Experience[] = [
 ];
 
 export default function ExperiencePage() {
+  // removed i18n hook
   return (
-    <section className="max-w-4xl mx-auto px-6 py-16">
-      <h1 className="text-2xl sm:text-3xl font-semibold">Pengalaman & Organisasi</h1>
+    <section className="max-w-5xl mx-auto px-6 py-16">
+      <h1 className="text-2xl sm:text-3xl font-semibold">Pengalaman</h1>
       <div className="mt-8 space-y-4">
         {experiences.map((e, i) => (
           <div key={i} className="relative pl-6">

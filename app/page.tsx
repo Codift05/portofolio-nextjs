@@ -1,6 +1,6 @@
 "use client";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import type { MouseEvent } from "react";
+import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { useState, type MouseEvent } from "react";
 import Typewriter from "@/components/typewriter";
 import NeonGrid from "@/components/neon-grid";
 import Link from "next/link";
@@ -68,12 +68,12 @@ const projectImages = [
   "/image/project/21.png",
 ];
 
-type Experience = { period: string; title: string; org: string };
+type Experience = { period: string; title: string; org: string; logo: string; role: string };
 const experiences: Experience[] = [
-  { period: "2023–2025", title: "Organisasi UKM GENIA", org: "UNSRAT" },
-  { period: "2023–2024", title: "Beasiswa KSE", org: "Karya Salemba Empat" },
-  { period: "2024", title: "Mahkota", org: "Company Profile & Website" },
-  { period: "2024", title: "BTU UNSRAT", org: "Proyek internal" },
+  { period: "2024–2025", title: "Organisasi UKM GENIA", org: "UKM Penalaran Fakultas Teknik UNSRAT", logo: "/image/logo/Organisasi UKM GENIA.png", role: "Anggota Divisi Kompetisi, berfokus pada Satria Data." },
+  { period: "2024", title: "Beasiswa KSE UNSRAT", org: "Karya Salemba Empat", logo: "/image/logo/Beasiswa KSE.png", role: "Graphic Designer di Departemen Media & Informasi." },
+  { period: "2023", title: "Mahkota-Manado", org: "Mahasiswa Kota Ternate - Manado", logo: "/image/logo/Mahkota.png", role: "Kepala Bidang Komunikasi & Informasi." },
+  { period: "2024", title: "BTFT UNSRAT", org: "Badan Tadzkir Fakultas Teknik UNSRAT", logo: "/image/logo/BTU UNSRAT.png", role: "Anggota Tim Sarana & Prasarana." },
 ];
 
 const certificates = ["BNSP", "Huawei", "Alibaba Cloud"];
@@ -113,6 +113,11 @@ export default function Home() {
   const sGlowOpacity = useSpring(glowOpacity, { stiffness: 70, damping: 18 });
   const sGalleryY = useSpring(galleryY, { stiffness: 120, damping: 24 });
   const sGalleryScale = useSpring(galleryScale, { stiffness: 200, damping: 28 });
+
+  // State untuk modal proyek
+const [selectedProject, setSelectedProject] = useState<string | null>(null);
+// State untuk modal sertifikat
+const [selectedCert, setSelectedCert] = useState<string | null>(null);
   const handleMouseMove = (event: MouseEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -126,26 +131,26 @@ export default function Home() {
       <div className="max-w-6xl mx-auto w-full z-10 text-center">
         {/* Headline seperti referensi */}
         <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
           className="font-display text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight"
         >
           I'm <span className="text-primary">Miftahuddin S. Arsyad</span>
         </motion.h1>
         <motion.h2
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.1 }}
           className="mt-2 text-2xl sm:text-4xl font-semibold neon-text"
         >
-          Full Stack Developer
+          Software Engineer
         </motion.h2>
 
         {/* Foto kotak di bawah headline, center */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.15 }}
           className="relative mx-auto mt-10 w-fit"
         >
@@ -190,27 +195,26 @@ export default function Home() {
 
         {/* Badges kiri/kanan melayang */}
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.25 }}
           className="hidden md:block"
         >
           <div className="pointer-events-none">
             {/* Kiri: Review */}
-            <div className="absolute left-10 top-1/3 -rotate-6 rounded-xl border border-border bg-card/70 backdrop-blur p-4 shadow-lg">
-              <div className="text-sm">Client Review From Australia</div>
+            <div className="absolute left-10 top-1/3 -rotate-6 rounded-xl border border-border bg-slate-900/70 text-slate-100 backdrop-blur p-4 shadow-lg z-20">
+              <div className="text-sm">"Code is poetry written in logic,</div>
+              <div className="text-sm">and every bug is just a plot twist in the story."</div>
               <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
-                <span>⭐ 5.0</span>
-                <span>• 30+ feedback</span>
               </div>
             </div>
             {/* Kanan: Expertise */}
-            <div className="absolute right-10 top-1/3 rotate-6 rounded-xl border border-border bg-card/70 backdrop-blur p-4 shadow-lg">
+            <div className="absolute right-10 top-1/3 rotate-6 rounded-xl border border-border bg-slate-900/70 text-slate-100 backdrop-blur p-4 shadow-lg z-20">
               <div className="text-sm">My Expertise</div>
               <div className="mt-2 space-y-2">
                 <div className="text-xs text-muted-foreground">Backend</div>
                 <div className="h-1.5 w-40 rounded bg-gradient-to-r from-primary to-primary/20" />
-                <div className="text-xs text-muted-foreground">CMS</div>
+                <div className="text-xs text-muted-foreground">Machine Learning</div>
                 <div className="h-1.5 w-32 rounded bg-gradient-to-r from-violet-500 to-violet-500/20" />
                 <div className="text-xs text-muted-foreground">Frontend</div>
                 <div className="h-1.5 w-48 rounded bg-gradient-to-r from-cyan-400 to-cyan-400/20" />
@@ -221,8 +225,8 @@ export default function Home() {
 
         {/* CTA tambahan */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.35 }}
           className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3"
         >
@@ -248,10 +252,11 @@ export default function Home() {
 
 
     {/* About */}
-    <Section id="about" title="Tentang Miftah">
-      <p className="text-muted-foreground max-w-3xl">
-        Mahasiswa Teknik Informatika Universitas Sam Ratulangi. Berfokus pada pengembangan web,
-        eksplorasi Machine Learning, dan desain antarmuka yang human-centered.
+    <Section id="about" title="About Me">
+      <p className="text-muted-foreground text-justify w-full max-w-none">
+        Halo! Saya Miftahuddin S. Arsyad , seorang Software Engineer  yang berfokus pada pengembangan web dan mobile, serta memiliki ketertarikan besar pada eksplorasi Machine Learning .
+        Saya menikmati proses menciptakan solusi digital yang bukan hanya berfungsi dengan baik, tapi juga memberikan pengalaman yang menyenangkan dan bermakna bagi pengguna. Bagi saya, teknologi adalah cara untuk menggabungkan logika dan kreativitas membangun sesuatu yang bermanfaat, elegan, dan berdampak.
+        Saat ini saya terus belajar dan bereksperimen dengan berbagai proyek lintas bidang, mulai dari sistem berbasis web, aplikasi mobile, hingga integrasi kecerdasan buatan. Tujuan saya sederhana: menghadirkan inovasi yang relevan dan human-centered di setiap baris kode.
       </p>
       <div className="relative mt-8">
         {/* Glow background grid */}
@@ -267,7 +272,7 @@ export default function Home() {
           {iconList.map((icon) => (
             <div
               key={icon.label}
-              className="group relative rounded-xl border border-border bg-card/60 backdrop-blur p-4 flex items-center justify-center overflow-hidden"
+              className="group relative rounded-xl border border-border bg-white backdrop-blur p-4 flex items-center justify-center overflow-hidden"
             >
               {/* Glow per-card saat hover */}
               <div
@@ -275,7 +280,7 @@ export default function Home() {
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 style={{
                   background:
-                    "radial-gradient(80px 80px at 50% 50%, rgba(56,189,248,0.22), transparent 60%)",
+                    "radial-gradient(90px 90px at 50% 50%, rgba(255,255,255,0.28), transparent 62%)",
                 }}
               />
               <Image
@@ -289,42 +294,101 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedCert && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedCert(null)}
+          >
+            <motion.div
+              className="relative w-full sm:max-w-2xl lg:max-w-3xl mx-4 bg-white rounded-xl border border-slate-200/30 shadow-2xl p-4 max-h-[80vh] overflow-hidden"
+              initial={{ scale: 0.98, y: 10, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.98, y: 10, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-slate-900 font-semibold">Detail Sertifikat</h3>
+                <button
+                  className="px-3 py-1.5 text-sm rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700"
+                  onClick={() => setSelectedCert(null)}
+                >
+                  Tutup
+                </button>
+              </div>
+              <div className="rounded-lg border border-slate-200/30 overflow-auto">
+                <Image src={selectedCert} alt="Sertifikat" width={1200} height={800} className="w-full h-auto max-h-[70vh] object-contain bg-white" />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Section>
 
     {/* Projects */}
     <Section id="projects" title="Proyek Pilihan">
-      <div className="snap-y snap-mandatory">
+      {/* Grid 3 kolom pada desktop, 2 pada tablet, 1 pada mobile */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {projectImages.map((src, i) => (
-          <section key={src} className="relative w-full h-screen snap-start flex items-center justify-center">
-            <motion.div
-              onMouseMove={handleMouseMove}
-              className="group relative isolate max-w-6xl w-[92vw] md:h-[85vh] h-[70vh] min-h-[380px] p-4 sm:p-6 rounded-[32px] border border-border bg-card/60 backdrop-blur overflow-hidden shadow-xl transition-all duration-200 hover:shadow-[0_0_36px_rgba(56,189,248,0.28)] hover:border-primary/60"
-              style={{ y: sGalleryY, scale: sGalleryScale }}
-            >
+          <div
+            key={src}
+            onClick={() => setSelectedProject(src)}
+            className="group cursor-pointer relative rounded-xl border border-slate-200/30 bg-white p-3 overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+          >
+            <div className="relative aspect-video w-full rounded-lg overflow-hidden">
+              <Image
+                src={src}
+                alt={`Project ${i + 1}`}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                className="object-contain"
+                priority={i === 0}
+              />
               <div
-                className="relative w-full h-full rounded-[32px] overflow-hidden"
-                style={{ clipPath: "inset(0 round 32px)" }}
-              >
-                <Image
-                  src={src}
-                  alt={`Project ${i + 1}`}
-                  fill
-                  className="md:object-cover object-contain object-center rounded-[32px]"
-                  sizes="100vw"
-                  priority={i === 0}
-                />
-                <div
-                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-soft-light"
-                  style={{
-                    background:
-                      "radial-gradient(200px 200px at var(--x, 50%) var(--y, 50%), rgba(147, 197, 253, 0.32), transparent 55%)",
-                  }}
-                />
-              </div>
-            </motion.div>
-          </section>
+                aria-hidden
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                style={{
+                  background:
+                    "radial-gradient(120px 120px at 50% 50%, rgba(255,255,255,0.28), transparent 60%)",
+                }}
+              />
+            </div>
+            <div className="mt-2 text-sm text-slate-700">Project {i + 1}</div>
+          </div>
         ))}
       </div>
+
+      {/* Modal detail proyek */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedProject(null)}
+          >
+            <motion.div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[92vw] max-w-5xl rounded-2xl bg-white p-4 shadow-xl"
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.95 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative aspect-video w-full overflow-hidden rounded-xl">
+                <Image src={selectedProject} alt="Project detail" fill className="object-contain" />
+              </div>
+              <div className="mt-4 flex justify-end">
+                <Button variant="outline" onClick={() => setSelectedProject(null)}>Tutup</Button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Section>
 
     {/* Experience */}
@@ -332,13 +396,19 @@ export default function Home() {
       <div className="space-y-4">
         {experiences.map((e, i) => (
           <div key={i} className="relative pl-6">
-            <div className="absolute left-0 top-2 h-3 w-3 rounded-full bg-primary shadow-[0_0_12px_rgba(56,189,248,0.6)]" />
-            <div className="rounded-xl border border-border bg-card/60 backdrop-blur p-4">
-              <div className="text-sm text-muted-foreground">{e.period}</div>
-              <div className="font-medium">{e.title}</div>
-              <div className="text-sm">{e.org}</div>
+              <div className="absolute left-0 top-2 h-3 w-3 rounded-full bg-primary shadow-[0_0_12px_rgba(56,189,248,0.6)]" />
+              <div className="rounded-xl border border-slate-200/30 bg-white p-4">
+                <div className="flex items-center gap-3">
+                  <Image src={e.logo} alt={e.title} width={40} height={40} className="w-10 h-10 object-contain rounded-md" />
+                  <div className="flex-1">
+                    <div className="text-xs text-slate-600">{e.period}</div>
+                    <div className="font-medium text-slate-900">{e.title}</div>
+                    <div className="text-sm text-slate-700">{e.org}</div>
+                    <div className="text-sm text-slate-700">{e.role}</div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
         ))}
       </div>
     </Section>
@@ -359,7 +429,8 @@ export default function Home() {
           {certificatesImages.map((item) => (
             <div
               key={item.label}
-              className="group relative rounded-xl border border-border bg-card/60 backdrop-blur p-3 sm:p-4 overflow-hidden"
+              onClick={() => setSelectedCert(item.src)}
+              className="group relative rounded-xl border border-slate-200/30 bg-white p-3 sm:p-4 overflow-hidden cursor-pointer"
             >
               {/* Glow per-card */}
               <div
@@ -389,25 +460,10 @@ export default function Home() {
     <Section id="contact" title="Kontak & Sosial Media">
       <p className="text-muted-foreground">Temukan aku di platform berikut atau kirim pesan singkat.</p>
       <div className="mt-6 flex gap-3">
-        <Button asChild variant="outline"><Link href="https://www.linkedin.com/" target="_blank">LinkedIn</Link></Button>
-        <Button asChild variant="outline"><Link href="https://github.com/" target="_blank">GitHub</Link></Button>
-        <Button asChild variant="outline"><Link href="https://instagram.com/" target="_blank">Instagram</Link></Button>
+        <Button asChild variant="outline"><Link href="https://www.linkedin.com/in/miftahuddin-s-arsyad/" target="_blank">LinkedIn</Link></Button>
+        <Button asChild variant="outline"><Link href="https://github.com/Codift05" target="_blank">GitHub</Link></Button>
+        <Button asChild variant="outline"><Link href="https://instagram.com/mfthsarsyd" target="_blank">Instagram</Link></Button>
       </div>
-      <form className="mt-10 space-y-3 max-w-xl">
-        <div>
-          <label className="text-sm" htmlFor="name">Nama</label>
-          <input id="name" name="name" type="text" className="mt-1 w-full rounded-lg bg-card/60 backdrop-blur border border-border px-3 py-2" placeholder="Nama kamu" />
-        </div>
-        <div>
-          <label className="text-sm" htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" className="mt-1 w-full rounded-lg bg-card/60 backdrop-blur border border-border px-3 py-2" placeholder="email@contoh.com" />
-        </div>
-        <div>
-          <label className="text-sm" htmlFor="message">Pesan</label>
-          <textarea id="message" name="message" className="mt-1 w-full rounded-lg bg-card/60 backdrop-blur border border-border px-3 py-2 h-28" placeholder="Tulis pesanmu..." />
-        </div>
-        <Button type="submit" className="bg-primary text-primary-foreground hover:shadow-[0_0_24px_rgba(56,189,248,0.6)]">Kirim</Button>
-      </form>
     </Section>
     </div>
   );
